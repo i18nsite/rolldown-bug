@@ -1,0 +1,57 @@
+[English](#english) | [中文](#中文)
+
+---
+
+## <a name="english"></a>English
+
+I strongly recommend that `rolldown` add a parameter like `autoPass: true`.
+
+I added a demonstration in `./test.js` in the repository https://github.com/i18nsite/rolldown-bug.
+
+For rolldown, with bundling + tree shaking, because `/*@__NO_SIDE_EFFECTS__*/` is not effective, after manually configuring the `manualPureFunctions` parameter,
+
+the size after the 1st pass is `1836` bytes, and after the 3rd pass it is `1009` bytes, reducing the size by almost half.
+
+```
+# auto pass round 1 : 57 -> 1836 bytes
+# auto pass round 2 : 1836 -> 1195 bytes
+# auto pass round 3 : 1195 -> 1009 bytes
+```
+
+For publishing, size is more important than a few hundred milliseconds of compilation time.
+
+Users can certainly configure a larger pass parameter, for example, setting it to 4, but this does not guarantee optimality and increases the user's mental learning cost.
+
+Moreover, adding the `pass` parameter depends on the support of upstream libraries, and the implementation time is uncontrollable.
+
+For now, I can call the library directly to achieve a similar `autoPass` effect (although it is very troublesome because rolldown can only input file paths and repeatedly writes to disk).
+
+But if it is integrated into `vite`, it will be very troublesome to implement a similar `autoPass` effect yourself.
+
+---
+
+## <a name="中文"></a>中文
+
+我强烈建议 `rolldown` 加入一个类似 `autoPass: true` 的参数
+
+我在代码库 https://github.com/i18nsite/rolldown-bug 的 `./test.js` 中加入了一个演示
+
+rolldown, 打包+摇树优化, 因为`/*@__NO_SIDE_EFFECTS__*/`不生效,在手动配置了`manualPureFunctions`参数之后,
+
+第1遍之后的大小是`1836`, 第3遍后的大小是`1009`, 减少了快一半的体积
+
+```
+# auto pass round 1 : 57 -> 1836 bytes
+# auto pass round 2 : 1836 -> 1195 bytes
+# auto pass round 3 : 1195 -> 1009 bytes
+```
+
+对发布而言, 尺寸比几百毫秒的编译时间更加重要
+
+用户当然可以配置一个比较大的pass参数,比如配置4,但是这样也不能确保是最优的,并且增加了用户使用的心智学习成本
+
+而且加入`pass`参数还依赖于上游库的支持,实现时间不可控
+
+先在我直接调用库, 当然可以实现类似`autoPass`的效果(虽然很麻烦,因为rolldown只能输入文件路径,反复写磁盘)
+
+但是如果整合到`vite`中, 想去自己实现类似 `autoPass` 的效果就会很麻烦

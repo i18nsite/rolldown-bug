@@ -1,0 +1,97 @@
+# Table of Contents
+
+- [Issues with rolldown 1.0.0-beta.42](#issues-with-rolldown-100-beta42)
+  - [Issue 1: Incomplete Tree Shaking](#issue-1-incomplete-tree-shaking)
+  - [Issue 2: `/*@__NO_SIDE_EFFECTS__*/` Not Working](#issue-2-no_side_effects-not-working)
+
+- [rolldown 1.0.0-beta.42 的几个问题](#rolldown-100-beta42-的几个问题)
+  - [问题1：摇树优化没有摇彻底](#问题1摇树优化没有摇彻底)
+  - [问题2：`/*@__NO_SIDE_EFFECTS__*/` 没有生效](#问题2no_side_effects-没有生效)
+
+<h1 id="issues-with-rolldown-100-beta42">Issues with rolldown 1.0.0-beta.42</h1>
+
+1.  Tree shaking is not complete. Running it a second time removes more code. It is recommended that the tree shaking process continues internally until it stabilizes before returning the result.
+2.  `/*@__NO_SIDE_EFFECTS__*/` is not working.
+
+To reproduce, see the repository:
+
+```
+git clone https://github.com/i18nsite/rolldown-bug.git
+```
+
+Below is the test code:
+
+```js
+<+ ./test.js >
+```
+
+Output:
+
+<+ ./out.txt >
+
+As you can see,
+
+<h2 id="issue-1-incomplete-tree-shaking">Issue 1: Incomplete Tree Shaking</h2>
+
+`first time treeshake : 3171 bytes`, `second time treeshake : 3164 bytes`
+
+<h2 id="issue-2-no_side_effects-not-working">Issue 2: `/*@__NO_SIDE_EFFECTS__*/` Not Working</h2>
+
+`treeshake with manualPureFunctions : 2871 bytes`. Here, `manualPureFunctions` is manually set to `$`.
+
+However, the `$` function in `./decode.js` already has the `/*@__NO_SIDE_EFFECTS__*/` comment.
+
+Theoretically, it should not be necessary to manually configure `manualPureFunctions`.
+
+The related code is as follows:
+```
+/*@__NO_SIDE_EFFECTS__*/
+export  /*@__NO_SIDE_EFFECTS__*/
+  const $ = /*@__NO_SIDE_EFFECTS__*/
+    (type_li_in) => {
+```
+
+---
+
+<h1 id="rolldown-100-beta42-的几个问题">rolldown 1.0.0-beta.42 的几个问题</h1>
+
+1.  摇树优化没有摇彻底, 多摇一次就可以多摇掉一些代码(建议内部代码中摇到稳定了再返回)
+2.  `/*@__NO_SIDE_EFFECTS__*/` 没有生效
+
+复现的代码库参见
+
+```
+git clone https://github.com/i18nsite/rolldown-bug.git
+```
+
+下面是测试代码
+
+```js
+<+ ./test.js >
+```
+
+输出 :
+
+<+ ./out.txt >
+
+可以看到,
+
+<h2 id="问题1摇树优化没有摇彻底">问题1：摇树优化没有摇彻底</h2>
+
+`first time treeshake : 3171 bytes`, `second time treeshake : 3164 bytes`
+
+<h2 id="问题2no_side_effects-没有生效">问题2：`/*@__NO_SIDE_EFFECTS__*/` 没有生效</h2>
+
+`treeshake with manualPureFunctions : 2871 bytes`, 这里手动设置了`manualPureFunctions`为`$`
+
+但是问题是,`$`函数在 `./decode.js`已经加上了`/*@__NO_SIDE_EFFECTS__*/` 的注释,
+
+理论上不应该需要手动配置`manualPureFunctions`
+
+相关代码如下:
+```
+/*@__NO_SIDE_EFFECTS__*/
+export  /*@__NO_SIDE_EFFECTS__*/
+  const $ = /*@__NO_SIDE_EFFECTS__*/
+    (type_li_in) => {
+```
