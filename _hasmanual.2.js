@@ -56,8 +56,20 @@ const metaSet = (e, t) => ((e._ = t), e),
 		do (i = e[t++]), (n |= (i & 127) << r), (r += 7)
 		while (i & 128)
 		return [n >>> 0, t]
+	},
+	decodeVarint64 = (e, t = 0) => {
+		let n = 0n,
+			r = 0n,
+			i
+		do (i = e[t++]), (n |= BigInt(i & 127) << r), (r += 7n)
+		while (i & 128)
+		return [n, t]
+	},
+	decodeInt64Based = (e) => (t, n) => {
+		let [r, i] = decodeVarint64(t, n)
+		return [Number(e(r)), i]
 	}
-var autopass_default = ((e) => {
+var _hasmanual_default = ((e) => {
 	let t = [],
 		n = [],
 		r = new Set()
@@ -79,4 +91,4 @@ var autopass_default = ((e) => {
 	}
 	return (i._ = t), i
 })([metaSet(utf8d, ``)])
-export { autopass_default as default }
+export { _hasmanual_default as default }

@@ -4,6 +4,9 @@
 		"@3-/mdt": "^0.1.5",
 		"@3-/read": "^0.1.4",
 		"@3-/write": "^0.0.2",
-		"rolldown": "^1.0.0-beta.42"
+		"rolldown": "^1.0.0-beta.43"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.6"
 	}
 }

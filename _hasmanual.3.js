@@ -57,7 +57,7 @@ const metaSet = (e, t) => ((e._ = t), e),
 		while (i & 128)
 		return [n >>> 0, t]
 	}
-var autopass_default = ((e) => {
+var _hasmanual_default = ((e) => {
 	let t = [],
 		n = [],
 		r = new Set()
@@ -79,4 +79,4 @@ var autopass_default = ((e) => {
 	}
 	return (i._ = t), i
 })([metaSet(utf8d, ``)])
-export { autopass_default as default }
+export { _hasmanual_default as default }

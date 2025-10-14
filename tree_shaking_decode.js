@@ -1,3 +1,3 @@
-import { EchoD } from "./def.js";
+import { EchoD } from "./def.js"
 
-export default EchoD;
+export default EchoD
