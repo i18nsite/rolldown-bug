@@ -56,6 +56,7 @@ const treeshake = async (input, manualPureFunctions, outfile) => {
 	}
 }
 
-await treeshake("tree_shaking_decode.js", [], "_no_manual.js")
+const file = "tree_shaking_decode.js"
 
-await treeshake("tree_shaking_decode.js", ["getNum"], "_hasmanual.js")
+await treeshake(file, [], "_no_manual.js")
+await treeshake(file, ["getNum"], "_hasmanual.js")
