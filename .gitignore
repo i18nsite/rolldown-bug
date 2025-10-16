@@ -1,2 +1,3 @@
 target/
+gen/_*
 node_modules/
