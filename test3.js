@@ -4,6 +4,9 @@ import write from "@3-/write"
 import read from "@3-/read"
 import { rolldown } from "rolldown"
 import { copyFileSync } from "node:fs"
+import { join } from "node:path"
+
+const GEN = join(import.meta.dirname, "gen")
 
 const _treeshake = async (input, manualPureFunctions) => {
 	const {
@@ -34,6 +37,7 @@ const _treeshake = async (input, manualPureFunctions) => {
 
 const treeshake = async (input, manualPureFunctions, outfile) => {
 	console.log("\n# " + outfile + "\n")
+	outfile = join(GEN, outfile)
 	copyFileSync(input, outfile)
 	input = outfile
 
@@ -56,7 +60,7 @@ const treeshake = async (input, manualPureFunctions, outfile) => {
 	}
 }
 
-const file = "tree_shaking_decode.js"
+const file = join(GEN, "tree_shaking_decode.js")
 
 await treeshake(file, [], "_no_manual.js")
 await treeshake(file, ["getNum"], "_hasmanual.js")
