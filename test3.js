@@ -14,6 +14,9 @@ const _treeshake = async (input, manualPureFunctions) => {
 	} = await (
 		await rolldown({
 			input,
+			output: {
+				// minify: "dce-only",
+			},
 			treeshake: {
 				preset: "smallest",
 				unknownGlobalSideEffects: false,
