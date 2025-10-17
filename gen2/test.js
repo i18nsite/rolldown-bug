@@ -9,7 +9,7 @@ const treeshake = async (input, manualPureFunctions) => {
 		await rolldown({
 			input,
 			output: {
-				// minify: "dce-only",
+				minify: "dce-only",
 			},
 			treeshake: {
 				preset: "smallest",
